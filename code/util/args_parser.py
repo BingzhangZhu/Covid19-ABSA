@@ -3,30 +3,30 @@ import argparse
 parser = argparse.ArgumentParser()
 ## Required parameters
 parser.add_argument("--task_name",
-                    default=None,
+                    default="sentihood_NLI_M",
                     type=str,
-                    required=True,
+                    required=False,
                     choices=["sentihood_NLI_M", "semeval_NLI_M"],
                     help="The name of the task to train.")
 parser.add_argument("--data_dir",
-                    default=None,
+                    default="../datasets/sentihood/",
                     type=str,
-                    required=True,
+                    required=False,
                     help="The input data dir. Should contain the .tsv files (or other data files) for the task.")
 parser.add_argument("--vocab_file",
-                    default=None,
+                    default="./uncased_L-12_H-768_A-12/vocab.txt",
                     type=str,
-                    required=True,
+                    required=False,
                     help="The vocabulary file that the model was trained on.")
 parser.add_argument("--output_dir",
-                    default=None,
+                    default="../results/sentihood/QACGBERT-reproduce/",
                     type=str,
-                    required=True,
+                    required=False,
                     help="The output directory where the model checkpoints will be written.")
 parser.add_argument('--model_type', 
                     type=str,
-                    default=None,
-                    required=True,
+                    default="QACGBERT",
+                    required=False,
                     choices=["CGBERT", "QACGBERT"],
                     help='type of model to train')    
 ## Other parameters
@@ -39,12 +39,12 @@ parser.add_argument("--evaluate_interval",
                     type=int,
                     help="How many global steps pass do we evaluate during training.")
 parser.add_argument("--bert_config_file",
-                    default=None,
+                    default="./uncased_L-12_H-768_A-12/bert_config.json.",
                     type=str,
                     help="The config json file corresponding to the pre-trained BERT model. \n"
                             "This specifies the model architecture.")
 parser.add_argument("--init_checkpoint",
-                    default=None,
+                    default="/uncased_L-12_H-768_A-12/pytorch_model.bin",
                     type=str,
                     help="Initial checkpoint (usually from a pre-trained model).")
 parser.add_argument("--save_checkpoint_path",

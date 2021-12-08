@@ -44,8 +44,8 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python run_classifier.py \
 --model_type QACGBERT \
 --do_lower_case \
 --max_seq_length 128 \
---train_batch_size 64 \
---eval_batch_size 256 \
+--train_batch_size 16 \
+--eval_batch_size 16 \
 --learning_rate 2e-5 \
 --num_train_epochs 30 \
 --vocab_file ./uncased_L-12_H-768_A-12/vocab.txt \
