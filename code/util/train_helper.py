@@ -685,7 +685,7 @@ def evaluate(test_dataloader, model, device, n_gpu, nb_tr_steps, tr_loss, epoch,
 
     # save for each time point
     if args.output_dir:
-        torch.save(model.state_dict(), args.output_dir + "checkpoint_" + str(global_step) + ".bin")
+        torch.save(model.state_dict(), args.output_dir + "checkpoint.bin")
         if args.task_name == "sentihood_NLI_M":
             if aspect_strict_Acc > global_best_acc:
                 torch.save(model.state_dict(), args.output_dir + "best_checkpoint.bin")
