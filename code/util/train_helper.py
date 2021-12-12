@@ -639,51 +639,51 @@ def evaluate(test_dataloader, model, device, n_gpu, nb_tr_steps, tr_loss, epoch,
     y_pred = np.concatenate(y_pred, axis=0)
     score = np.concatenate(score, axis=0)
 
-    # logger.info("***** Evaluation results *****")
-    # result = collections.OrderedDict()
-    # # handling corner case for a checkpoint start
-    # if nb_tr_steps == 0:
-    #     loss_tr = 0.0
-    # else:
-    #     loss_tr = tr_loss/nb_tr_steps
+    logger.info("***** Evaluation results *****")
+    result = collections.OrderedDict()
+    # handling corner case for a checkpoint start
+    if nb_tr_steps == 0:
+        loss_tr = 0.0
+    else:
+        loss_tr = tr_loss/nb_tr_steps
 
     # for ABSA tasks, we need more evaluations
     if args.task_name == "sentihood_NLI_M":
         aspect_strict_Acc = sentihood_strict_acc(y_true, y_pred)
-    #     aspect_Macro_F1 = sentihood_macro_F1(y_true, y_pred)
-    #     aspect_Macro_AUC, sentiment_Acc, sentiment_Macro_AUC = sentihood_AUC_Acc(y_true, score)
-    #     result = {'epoch': epoch,
-    #               'global_step': global_step,
-    #               'loss': loss_tr,
-    #               'test_loss': test_loss,
-    #               'test_accuracy': test_accuracy,
-    #               'aspect_strict_Acc': aspect_strict_Acc,
-    #               'aspect_Macro_F1': aspect_Macro_F1,
-    #               'aspect_Macro_AUC': aspect_Macro_AUC,
-    #               'sentiment_Acc': sentiment_Acc,
-    #               'sentiment_Macro_AUC': sentiment_Macro_AUC}
+        aspect_Macro_F1 = sentihood_macro_F1(y_true, y_pred)
+        aspect_Macro_AUC, sentiment_Acc, sentiment_Macro_AUC = sentihood_AUC_Acc(y_true, score)
+        result = {'epoch': epoch,
+                  'global_step': global_step,
+                  'loss': loss_tr,
+                  'test_loss': test_loss,
+                  'test_accuracy': test_accuracy,
+                  'aspect_strict_Acc': aspect_strict_Acc,
+                  'aspect_Macro_F1': aspect_Macro_F1,
+                  'aspect_Macro_AUC': aspect_Macro_AUC,
+                  'sentiment_Acc': sentiment_Acc,
+                  'sentiment_Macro_AUC': sentiment_Macro_AUC}
     else:
         aspect_P, aspect_R, aspect_F = semeval_PRF(y_true, y_pred)
-    #     sentiment_Acc_4_classes = semeval_Acc(y_true, y_pred, score, 4)
-    #     sentiment_Acc_3_classes = semeval_Acc(y_true, y_pred, score, 3)
-    #     sentiment_Acc_2_classes = semeval_Acc(y_true, y_pred, score, 2)
-    #     result = {'epoch': epoch,
-    #               'global_step': global_step,
-    #               'loss': loss_tr,
-    #               'test_loss': test_loss,
-    #               'test_accuracy': test_accuracy,
-    #               'aspect_P': aspect_P,
-    #               'aspect_R': aspect_R,
-    #               'aspect_F': aspect_F,
-    #               'sentiment_Acc_4_classes': sentiment_Acc_4_classes,
-    #               'sentiment_Acc_3_classes': sentiment_Acc_3_classes,
-    #               'sentiment_Acc_2_classes': sentiment_Acc_2_classes}
+        # sentiment_Acc_4_classes = semeval_Acc(y_true, y_pred, score, 4)
+        sentiment_Acc_3_classes = semeval_Acc(y_true, y_pred, score, 3)
+        sentiment_Acc_2_classes = semeval_Acc(y_true, y_pred, score, 2)
+        result = {'epoch': epoch,
+                  'global_step': global_step,
+                  'loss': loss_tr,
+                  'test_loss': test_loss,
+                  'test_accuracy': test_accuracy,
+                  'aspect_P': aspect_P,
+                  'aspect_R': aspect_R,
+                  'aspect_F': aspect_F,
+                #   'sentiment_Acc_4_classes': sentiment_Acc_4_classes,
+                  'sentiment_Acc_3_classes': sentiment_Acc_3_classes,
+                  'sentiment_Acc_2_classes': sentiment_Acc_2_classes}
 
-    # with open(output_log_file, "a+") as writer:
-    #     for key in result.keys():
-    #         logger.info("  %s = %s\n", key, str(result[key]))
-    #         writer.write("%s\t" % (str(result[key])))
-    #     writer.write("\n")
+    with open(output_log_file, "a+") as writer:
+        for key in result.keys():
+            logger.info("  %s = %s\n", key, str(result[key]))
+            writer.write("%s\t" % (str(result[key])))
+        writer.write("\n")
 
     # save for each time point
     if args.output_dir:

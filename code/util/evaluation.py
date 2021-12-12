@@ -164,33 +164,34 @@ def semeval_Acc(y_true, y_pred, score, classes=4):
     """
     assert classes in [2, 3, 4], "classes must be 2 or 3 or 4."
 
-    if classes == 4:
+    # if classes == 4:
+        # total=0
+        # total_right=0
+        # for i in range(len(y_true)):
+        #     if y_true[i]==4:continue
+        #     total+=1
+        #     tmp=y_pred[i]
+        #     if tmp==4:
+        #         if score[i][0]>=score[i][1] and score[i][0]>=score[i][2] and score[i][0]>=score[i][3]:
+        #             tmp=0
+        #         elif score[i][1]>=score[i][0] and score[i][1]>=score[i][2] and score[i][1]>=score[i][3]:
+        #             tmp=1
+        #         elif score[i][2]>=score[i][0] and score[i][2]>=score[i][1] and score[i][2]>=score[i][3]:
+        #             tmp=2
+        #         else:
+        #             tmp=3
+        #     if y_true[i]==tmp:
+        #         total_right+=1
+        # sentiment_Acc = total_right/total
+    # elif classes == 3:
+    if classes == 3:
         total=0
         total_right=0
         for i in range(len(y_true)):
-            if y_true[i]==4:continue
+            if y_true[i]==3:continue
             total+=1
             tmp=y_pred[i]
-            if tmp==4:
-                if score[i][0]>=score[i][1] and score[i][0]>=score[i][2] and score[i][0]>=score[i][3]:
-                    tmp=0
-                elif score[i][1]>=score[i][0] and score[i][1]>=score[i][2] and score[i][1]>=score[i][3]:
-                    tmp=1
-                elif score[i][2]>=score[i][0] and score[i][2]>=score[i][1] and score[i][2]>=score[i][3]:
-                    tmp=2
-                else:
-                    tmp=3
-            if y_true[i]==tmp:
-                total_right+=1
-        sentiment_Acc = total_right/total
-    elif classes == 3:
-        total=0
-        total_right=0
-        for i in range(len(y_true)):
-            if y_true[i]>=3:continue
-            total+=1
-            tmp=y_pred[i]
-            if tmp>=3:
+            if tmp==3:
                 if score[i][0]>=score[i][1] and score[i][0]>=score[i][2]:
                     tmp=0
                 elif score[i][1]>=score[i][0] and score[i][1]>=score[i][2]:
@@ -204,10 +205,10 @@ def semeval_Acc(y_true, y_pred, score, classes=4):
         total=0
         total_right=0
         for i in range(len(y_true)):
-            if y_true[i]>=3 or y_true[i]==1:continue
+            if y_true[i]==3 or y_true[i]==1:continue
             total+=1
             tmp=y_pred[i]
-            if tmp>=3 or tmp==1:
+            if tmp==3 or tmp==1:
                 if score[i][0]>=score[i][2]:
                     tmp=0
                 else:
