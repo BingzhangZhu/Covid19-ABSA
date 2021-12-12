@@ -1,16 +1,16 @@
-nonhup python run_classifier.py \
---task_name sentihood_NLI_M \
---data_dir ../datasets/sentihood/ \
---output_dir ../results/sentihood/QACGBERT-reproduce/ \
+nohup python run_classifier.py \
+--task_name semeval_NLI_M \
+--data_dir ../datasets/covid/ \
+--output_dir ../results/covid/QACGBERT-reproduce/ \
 --model_type QACGBERT \
 --do_lower_case \
 --max_seq_length 128 \
 --train_batch_size 16 \
 --eval_batch_size 16 \
 --learning_rate 2e-5 \
---num_train_epochs 30 \
+--num_train_epochs 15 \
 --vocab_file ./uncased_L-12_H-768_A-12/vocab.txt \
 --bert_config_file ./uncased_L-12_H-768_A-12/bert_config.json \
 --init_checkpoint ./uncased_L-12_H-768_A-12/pytorch_model.bin \
 --seed 123 \
---evaluate_interval 25 >> log/output.log 2>&1 &
+--evaluate_interval 25 >> ../log/output_covid.log 2>&1 &

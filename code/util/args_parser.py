@@ -44,7 +44,7 @@ parser.add_argument("--bert_config_file",
                     help="The config json file corresponding to the pre-trained BERT model. \n"
                             "This specifies the model architecture.")
 parser.add_argument("--init_checkpoint",
-                    default="./uncased_L-12_H-768_A-12/pytorch_model.bin",
+                    default="./uncased_L-12_H-768_A-12/p.bin",
                     type=str,
                     help="Initial checkpoint (usually from a pre-trained model).")
 parser.add_argument("--save_checkpoint_path",

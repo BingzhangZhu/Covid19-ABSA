@@ -460,7 +460,7 @@ def data_and_model_loader(device, n_gpu, args, sampler="randomWeight"):
                                   batch_size=args.train_batch_size)
 
     # test set
-    test_examples = processor.get_test_examples(args.data_dir)
+    test_examples = processor.get_dev_examples(args.data_dir) # modified from test to dev
     test_features = convert_examples_to_features(
         test_examples, label_list, args.max_seq_length,
         tokenizer, args.max_context_length,
@@ -577,7 +577,6 @@ def evaluate_fast(test_dataloader, model, device, n_gpu, args):
         logger.info("  %s = %s\n", key, str(result[key]))
 
     return -1
-
 
 def evaluate(test_dataloader, model, device, n_gpu, nb_tr_steps, tr_loss, epoch, 
              global_step, output_log_file, global_best_acc, args):
