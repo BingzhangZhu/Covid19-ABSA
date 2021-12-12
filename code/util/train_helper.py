@@ -54,11 +54,14 @@ context_id_map_sentihood = {'location - 1 - general':0,
                             'location - 2 - safety':6,
                             'location - 2 - transit location':7}
 
-context_id_map_semeval= {'price':0,
-                         'anecdotes':1,
-                         'food':2,
-                         'ambience':3,
-                         'service':4}
+context_id_map_semeval= {'politics':0,
+                         'economy':1,
+                         'foreign':2,
+                         'culture':3,
+                         'situation':4,
+                         'measures':5,
+                         'racism':6,
+                         'overall':7}
 
 def _truncate_seq_pair(tokens_a, tokens_b, max_length):
     """Truncates a sequence pair in place to the maximum length."""
