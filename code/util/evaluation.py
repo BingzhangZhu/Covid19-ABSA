@@ -123,13 +123,13 @@ def semeval_PRF(y_true, y_pred):
     s_all=0
     g_all=0
     s_g_all=0
-    for i in range(len(y_pred)//5):
+    for i in range(len(y_pred)//7):
         s=set()
         g=set()
-        for j in range(5):
-            if y_pred[i*5+j]!=4:
+        for j in range(7):
+            if y_pred[i*7+j]!=3:
                 s.add(j)
-            if y_true[i*5+j]!=4:
+            if y_true[i*7+j]!=3:
                 g.add(j)
         if len(g)==0:continue
         s_g=s.intersection(g)
