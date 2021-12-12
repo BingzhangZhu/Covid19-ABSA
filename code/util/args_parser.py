@@ -39,12 +39,12 @@ parser.add_argument("--evaluate_interval",
                     type=int,
                     help="How many global steps pass do we evaluate during training.")
 parser.add_argument("--bert_config_file",
-                    default="./uncased_L-12_H-768_A-12/bert_config.json.",
+                    default="./uncased_L-12_H-768_A-12/bert_config.json",
                     type=str,
                     help="The config json file corresponding to the pre-trained BERT model. \n"
                             "This specifies the model architecture.")
 parser.add_argument("--init_checkpoint",
-                    default="/uncased_L-12_H-768_A-12/pytorch_model.bin",
+                    default="./uncased_L-12_H-768_A-12/pytorch_model.bin",
                     type=str,
                     help="Initial checkpoint (usually from a pre-trained model).")
 parser.add_argument("--save_checkpoint_path",
