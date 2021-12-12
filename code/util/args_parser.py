@@ -19,7 +19,7 @@ parser.add_argument("--vocab_file",
                     required=False,
                     help="The vocabulary file that the model was trained on.")
 parser.add_argument("--output_dir",
-                    default=None,
+                    default="../results/covid/test",
                     type=str,
                     required=False,
                     help="The output directory where the model checkpoints will be written.")
