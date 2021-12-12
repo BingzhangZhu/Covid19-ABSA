@@ -453,7 +453,7 @@ def data_and_model_loader(device, n_gpu, args, sampler="randomWeight"):
         else:
             # consider switching to a weighted sampler
             if args.task_name == "semeval_NLI_M":
-                sampler_weights = make_weights_for_balanced_classes(all_label_ids, 5)
+                sampler_weights = make_weights_for_balanced_classes(all_label_ids, 4)
             else:
                 sampler_weights = make_weights_for_balanced_classes(all_label_ids, 3)
             train_sampler = WeightedRandomSampler(sampler_weights, len(train_data), replacement=True)
