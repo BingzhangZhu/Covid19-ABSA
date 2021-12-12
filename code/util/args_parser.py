@@ -3,13 +3,13 @@ import argparse
 parser = argparse.ArgumentParser()
 ## Required parameters
 parser.add_argument("--task_name",
-                    default="sentihood_NLI_M",
+                    default="semeval_NLI_M",
                     type=str,
                     required=False,
                     choices=["sentihood_NLI_M", "semeval_NLI_M"],
                     help="The name of the task to train.")
 parser.add_argument("--data_dir",
-                    default="../datasets/sentihood/",
+                    default="../datasets/covid/",
                     type=str,
                     required=False,
                     help="The input data dir. Should contain the .tsv files (or other data files) for the task.")
@@ -19,7 +19,7 @@ parser.add_argument("--vocab_file",
                     required=False,
                     help="The vocabulary file that the model was trained on.")
 parser.add_argument("--output_dir",
-                    default="../results/sentihood/QACGBERT-reproduce/",
+                    default=None,
                     type=str,
                     required=False,
                     help="The output directory where the model checkpoints will be written.")

@@ -35,7 +35,7 @@ processors = {
     "semeval_NLI_M":Semeval_NLI_M_Processor
 }
 
-def data_and_model_loader(device, n_gpu, args, sampler="randomWeight"):
+def data_and_model_loader(device, n_gpu, args):
 
     processor = processors[args.task_name]()
     label_list = processor.get_labels()
@@ -81,12 +81,9 @@ def data_and_model_loader(device, n_gpu, args, sampler="randomWeight"):
 
     return model, test_dataloader
 
-def evaluate(test_dataloader, model, device, n_gpu, nb_tr_steps, tr_loss, epoch, 
-             global_step, output_log_file, global_best_acc, args):
+def inference(test_dataloader, model, device):
 
     model.eval()
-    test_loss, test_accuracy = 0, 0
-    nb_test_steps, nb_test_examples = 0, 0
     pbar = tqdm(test_dataloader, desc="Iteration")
     y_true, y_pred, score = [], [], []
     # we don't need gradient in this case.
@@ -125,84 +122,21 @@ def evaluate(test_dataloader, model, device, n_gpu, nb_tr_steps, tr_loss, epoch,
             y_pred.append(outputs)
             score.append(logits) #  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            test_loss += tmp_test_loss.mean().item()
-            test_accuracy += tmp_test_accuracy
-
-            nb_test_examples += input_ids.size(0)
-            nb_test_steps += 1
-
-        test_loss = test_loss / nb_test_steps
-        test_accuracy = test_accuracy / nb_test_examples
 
     # we follow previous works in calculating the metrics
     y_true = np.concatenate(y_true, axis=0)
     y_pred = np.concatenate(y_pred, axis=0)
     score = np.concatenate(score, axis=0)
 
-    logger.info("***** Evaluation results *****")
-    result = collections.OrderedDict()
-    # handling corner case for a checkpoint start
-    if nb_tr_steps == 0:
-        loss_tr = 0.0
-    else:
-        loss_tr = tr_loss/nb_tr_steps
-
-    # for ABSA tasks, we need more evaluations
-    if args.task_name == "sentihood_NLI_M":
-        aspect_strict_Acc = sentihood_strict_acc(y_true, y_pred)
-        aspect_Macro_F1 = sentihood_macro_F1(y_true, y_pred)
-        aspect_Macro_AUC, sentiment_Acc, sentiment_Macro_AUC = sentihood_AUC_Acc(y_true, score)
-        result = {'epoch': epoch,
-                  'global_step': global_step,
-                  'loss': loss_tr,
-                  'test_loss': test_loss,
-                  'test_accuracy': test_accuracy,
-                  'aspect_strict_Acc': aspect_strict_Acc,
-                  'aspect_Macro_F1': aspect_Macro_F1,
-                  'aspect_Macro_AUC': aspect_Macro_AUC,
-                  'sentiment_Acc': sentiment_Acc,
-                  'sentiment_Macro_AUC': sentiment_Macro_AUC}
-    else:
-        aspect_P, aspect_R, aspect_F = semeval_PRF(y_true, y_pred)
-        sentiment_Acc_4_classes = semeval_Acc(y_true, y_pred, score, 4)
-        sentiment_Acc_3_classes = semeval_Acc(y_true, y_pred, score, 3)
-        sentiment_Acc_2_classes = semeval_Acc(y_true, y_pred, score, 2)
-        result = {'epoch': epoch,
-                  'global_step': global_step,
-                  'loss': loss_tr,
-                  'test_loss': test_loss,
-                  'test_accuracy': test_accuracy,
-                  'aspect_P': aspect_P,
-                  'aspect_R': aspect_R,
-                  'aspect_F': aspect_F,
-                  'sentiment_Acc_4_classes': sentiment_Acc_4_classes,
-                  'sentiment_Acc_3_classes': sentiment_Acc_3_classes,
-                  'sentiment_Acc_2_classes': sentiment_Acc_2_classes}
-
-    with open(output_log_file, "a+") as writer:
-        for key in result.keys():
-            logger.info("  %s = %s\n", key, str(result[key]))
-            writer.write("%s\t" % (str(result[key])))
-        writer.write("\n")
-
-    # save for each time point
-    if args.output_dir:
-        torch.save(model.state_dict(), args.output_dir + "checkpoint.bin")
-        if args.task_name == "sentihood_NLI_M":
-            if aspect_strict_Acc > global_best_acc:
-                torch.save(model.state_dict(), args.output_dir + "best_checkpoint.bin")
-                global_best_acc = aspect_strict_Acc
-        else:
-            if aspect_F > global_best_acc:
-                torch.save(model.state_dict(), args.output_dir + "best_checkpoint.bin")
-                global_best_acc = aspect_F
-
-    return global_best_acc
+    return y_true, y_pred, score
 
 def run(args):
 
     device, n_gpu, _= system_setups(args)
     model, test_dataloader = data_and_model_loader(device, n_gpu, args)
+    y_true, y_pred, score = inference(test_dataloader, model, device)
+    return y_true, y_pred, score
+
 
 if __name__ == "__main__":
     from util.args_parser import parser

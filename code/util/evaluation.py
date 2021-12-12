@@ -158,11 +158,11 @@ def semeval_PRF(y_true, y_pred):
     return p,r,f
 
 
-def semeval_Acc(y_true, y_pred, score, classes=4):
+def semeval_Acc(y_true, y_pred, score, classes=3):
     """
     Calculate "Acc" of sentiment classification task of SemEval-2014.
     """
-    assert classes in [2, 3, 4], "classes must be 2 or 3 or 4."
+    assert classes in [2, 3], "classes must be 2 or 3."
 
     # if classes == 4:
         # total=0
