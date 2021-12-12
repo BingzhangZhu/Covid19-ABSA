@@ -121,7 +121,7 @@ class Semeval_NLI_M_Processor(DataProcessor):
 
     def get_labels(self):
         """See base class."""
-        return ['positive', 'neutral', 'negative', 'conflict', 'none']
+        return ['positive', 'neutral', 'negative', 'unrelated']
 
     def _create_examples(self, lines, set_type, debug=False):
         """Creates examples for the training and dev sets."""
