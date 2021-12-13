@@ -1,23 +1,16 @@
 
 import torch
-from random import shuffle
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
 
 from model.CGBERT import *
 from model.QACGBERT import *
 
-from sklearn.metrics import f1_score, accuracy_score, roc_auc_score
 
 from torch.utils.data import DataLoader, TensorDataset
-from torch.utils.data.distributed import DistributedSampler
-from torch.utils.data.sampler import RandomSampler, SequentialSampler, WeightedRandomSampler
-from tqdm import tqdm, trange
+from tqdm import tqdm
 
-from util.optimization import BERTAdam
 from util.processor import (Sentihood_NLI_M_Processor,
                             Semeval_NLI_M_Processor)
 
@@ -140,5 +133,11 @@ def run(args):
 
 if __name__ == "__main__":
     from util.args_parser import parser
+    import pandas as pd
+
     args = parser.parse_args()
-    run(args)
+    y_true, y_pred, score = run(args)
+    df = pd.DataFrame(data=[y_true, y_pred, score])
+    df = df.T
+    df.columns=["y_true", "y_pred", "score"]
+    df.to_csv("../datasets/covid/infer_rslt.csv")
