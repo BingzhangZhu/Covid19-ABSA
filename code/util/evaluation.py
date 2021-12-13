@@ -254,13 +254,13 @@ def main():
         y_true = get_y_true(args.task_name)
         y_pred, score = get_y_pred(args.task_name, args.pred_data_dir)
         aspect_P, aspect_R, aspect_F = semeval_PRF(y_true, y_pred)
-        sentiment_Acc_4_classes = semeval_Acc(y_true, y_pred, score, 4)
+        # sentiment_Acc_4_classes = semeval_Acc(y_true, y_pred, score, 4)
         sentiment_Acc_3_classes = semeval_Acc(y_true, y_pred, score, 3)
         sentiment_Acc_2_classes = semeval_Acc(y_true, y_pred, score, 2)
         result = {'aspect_P': aspect_P,
                 'aspect_R': aspect_R,
                 'aspect_F': aspect_F,
-                'sentiment_Acc_4_classes': sentiment_Acc_4_classes,
+                # 'sentiment_Acc_4_classes': sentiment_Acc_4_classes,
                 'sentiment_Acc_3_classes': sentiment_Acc_3_classes,
                 'sentiment_Acc_2_classes': sentiment_Acc_2_classes}
 

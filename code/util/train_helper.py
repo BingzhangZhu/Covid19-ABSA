@@ -399,7 +399,7 @@ def system_setups(args):
             writer.write("epoch\tglobal_step\tloss\tt_loss\tt_acc\tstrict_acc\tf1\tauc\ts_acc\ts_auc\n")
     else:
         with open(output_log_file, "w") as writer:
-            writer.write("epoch\tglobal_step\tloss\tt_loss\tt_acc\taspect_P\taspect_R\taspect_F\ts_acc_4\ts_acc_3\ts_acc_2\n")
+            writer.write("epoch\tglobal_step\tloss\tt_loss\tt_acc\taspect_P\taspect_R\taspect_F\ts_acc_3\ts_acc_2\n")
 
     return device, n_gpu, output_log_file
 
@@ -566,13 +566,13 @@ def evaluate_fast(test_dataloader, model, device, n_gpu, args):
                   'sentiment_Macro_AUC': sentiment_Macro_AUC}
     else:
         aspect_P, aspect_R, aspect_F = semeval_PRF(y_true, y_pred)
-        sentiment_Acc_4_classes = semeval_Acc(y_true, y_pred, score, 4)
+        # sentiment_Acc_4_classes = semeval_Acc(y_true, y_pred, score, 4)
         sentiment_Acc_3_classes = semeval_Acc(y_true, y_pred, score, 3)
         sentiment_Acc_2_classes = semeval_Acc(y_true, y_pred, score, 2)
         result = {'aspect_P': aspect_P,
                   'aspect_R': aspect_R,
                   'aspect_F': aspect_F,
-                  'sentiment_Acc_4_classes': sentiment_Acc_4_classes,
+                #   'sentiment_Acc_4_classes': sentiment_Acc_4_classes,
                   'sentiment_Acc_3_classes': sentiment_Acc_3_classes,
                   'sentiment_Acc_2_classes': sentiment_Acc_2_classes}
 
