@@ -1,7 +1,7 @@
-nohup python run_classifier.py \
+python inference.py \
 --task_name semeval_NLI_M \
 --data_dir ../datasets/covid/ \
---output_dir ../results/covid/QACGBERT-reproduce/ \
+--output_dir ../results/covid/inference/ \
 --model_type QACGBERT \
 --do_lower_case \
 --max_seq_length 128 \
@@ -11,6 +11,6 @@ nohup python run_classifier.py \
 --num_train_epochs 8 \
 --vocab_file ./uncased_L-12_H-768_A-12/vocab.txt \
 --bert_config_file ./uncased_L-12_H-768_A-12/bert_config.json \
---init_checkpoint ./uncased_L-12_H-768_A-12/pytorch_model.bin \
+--init_checkpoint ./best_checkpoint.bin \
 --seed 123 \
---evaluate_interval 25 >> ../log/output_covid.log 2>&1 &
+--evaluate_interval 25 
